@@ -25,7 +25,10 @@ footer .footer {
   grid-area: brand;
 }
 
-
+svg {
+  height: 40px;
+  width: 40px;
+}
 .footer .nav {
   grid-area: nav;
 }
