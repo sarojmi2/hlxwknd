@@ -11,10 +11,17 @@ function collapseAllNavSections(sections) {
   });
 }
 
+const icon_search = document.getElementById("con-search");
+if (icon_search) {
+  icon_search.addEventListener ("click", function(){
+    window.location.assign("http://www.google.com");
+  });
+}
 /**
  * decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
+
 
 export default async function decorate(block) {
   // fetch nav content
