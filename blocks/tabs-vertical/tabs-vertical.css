@@ -6,6 +6,9 @@ main .tabs-vertical-container {
   --text-white:#fff; 
 }
 
+main .tabs-vertical-container {
+  padding: 6px 40px;
+}
 main .tabs-vertical-container .tabs-vertical-wrapper {
   width: 100%;
   max-width: unset;
@@ -187,11 +190,11 @@ main .tabs-vertical-container .tabs-vertical-wrapper {
   }
 
   .tabs-vertical-list {
-    padding: 100px 0 100px 32px;
+    padding: 44px 0 100px 32px;
   }
 
   .tabs-vertical-pane-inside {
-    padding: 100px 32px;
+    padding: 0px 32px;
   }
 
   .tabs-vertical-content {
