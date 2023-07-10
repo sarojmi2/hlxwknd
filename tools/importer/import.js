@@ -12,6 +12,8 @@
 /* global WebImporter */
 /* eslint-disable no-console, class-methods-use-this */
 
+import { DOMUtils } from "./helix-importer-ui/modules/importer";
+
 
 const createMetadata = (main, document) => {
     const meta = {};
@@ -42,7 +44,8 @@ const createMetadata = (main, document) => {
       el.src = img.content;
       meta.Image = el;
     }
-  
+    meta.CreatedBy = "Saroj Mishra"
+    meta.INFO = "Could put required generic META properties in to a config file and loop th the input param to generate the meta table"
     const block = WebImporter.Blocks.getMetadataBlock(document, meta);
     main.append(block);
   
@@ -65,12 +68,13 @@ const createMetadata = (main, document) => {
     }) => {
       // define the main element: the one that will be transformed to Markdown
       const main = document.body;
-  
+      
+      console.log("Main" + document.HTMLElement);  
       // use helper method to remove header, footer, etc.
       WebImporter.DOMUtils.remove(main, [
         'header',
         'footer',
-        '.elementor-widget-image',
+        '.elementor-container',
       ]);
   
       // create the metadata block and append it to the main element
