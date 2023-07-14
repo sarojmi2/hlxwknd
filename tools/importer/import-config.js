@@ -13,35 +13,65 @@
 /* eslint-disable no-console, class-methods-use-this */
 
 
+const createCardTable = (main, cells, document) => {
+  const meta = {};
+  const table = WebImporter.DOMUtils.createTable(cells, document);
+  main.append(table);
+  return meta;
+};
+
 const createMetadata = (main, document) => {
     const meta = {};
   
-    const title = document.querySelector('title');
-    if (title) {
-      meta.Title = title.textContent.replace(/[\n\t]/gm, '');
-    }
-  
-    const desc = document.querySelector('[property="og:description"]');
-    if (desc) {
-      meta.Description = desc.content;
-    }
-    const type = document.querySelector('[property="og:type"]');
-    if (type) {
-      meta.Type = type.content;
-    }
-    const url = document.querySelector('[property="og:url"]');
-    console.dir("URL +++++++++" + url);
-    if (url) {
-        const e2 = document.createElement('a');
-      e2.href = url.content;
-      meta.URL = e2;
-    }
-    const img = document.querySelector('[property="og:image"]');
-    if (img && img.content) {
-      const el = document.createElement('img');
-      el.src = img.content;
-      meta.Image = el;
-    }
+    fetch('bulkconfig.json')
+        .then(response => response.json())
+        .then(config => {
+            config.forEach(property => {
+            console.log(property.name);
+            property.values.forEach(value => {
+                console.log(value);
+                let metaprop;
+                
+                if (value && value.includes("og")) {
+                    metaprop = document.querySelector('[property="' + value + '"]');
+                    value = value.replace("og:","");
+                    if(metaprop)
+                        {   meta.value = metaprop.content;
+                            console.log(metaprop.content);
+                        }
+                    }
+                    else {
+                        metaprop = document.querySelector('value');
+                       if (metaprop)
+                            meta.value = metaprop.content;
+                   }
+
+                
+            });
+            });
+        });
+        console.log(meta);
+       /*  const desc = document.querySelector('[property="og:description"]');
+        if (metaprop == desc) {
+        meta.Description = desc.content;
+        }
+        const type = document.querySelector('[property="og:type"]');
+        if (type) {
+        meta.Type = type.content;
+        }
+        const url = document.querySelector('[property="og:url"]');
+        console.dir("URL +++++++++" + url);
+        if (url) {
+            const e2 = document.createElement('a');
+        e2.href = url.content;
+        meta.URL = e2;
+        }
+        const img = document.querySelector('[property="og:image"]');
+        if (img && img.content) {
+        const el = document.createElement('img');
+        el.src = img.content;
+        meta.Image = el;
+        } */
     meta.CreatedBy = "Saroj Mishra"
     meta.INFO = "Could put required generic META properties in to a config file and loop th the input param to generate the meta table"
     const block = WebImporter.Blocks.getMetadataBlock(document, meta);
@@ -66,15 +96,29 @@ const createMetadata = (main, document) => {
     }) => {
       // define the main element: the one that will be transformed to Markdown
       const main = document.body;
+      
       console.log("Main" + document.HTMLElement);  
       // use helper method to remove header, footer, etc.
       WebImporter.DOMUtils.remove(main, [
         'header',
         'footer',
-        '.elementor-widget-image',
+        '.elementor-container',
       ]);
   
+      const img = document.querySelector('[property="og:image"]');
+      if (img && img.content) {
+      const el = document.createElement('img');
+      el.src = img.content;
+      
+
+      const cells = [
+        ['Card'],
+        ['Title', 'The Hello World block '],
+        ['Description', 'This is a really cool Hello World page.'],
+        ['Image', el]
+      ];
       // create the metadata block and append it to the main element
+      createCardTable(main, cells, document);
       createMetadata(main, document);
   
       return main;

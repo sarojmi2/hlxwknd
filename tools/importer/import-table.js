@@ -50,6 +50,24 @@ const createMetadata = (main, document) => {
     return meta;
   };
   
+  
+const createCardTable = (main, document) => {
+  const meta = {};
+  const el = document.createElement('img');
+  el.src = 'https://placehold.jp/250x250.png';
+  /* const img = document.querySelector('[property="og:image"]');
+    if (img && img.content) {
+      el.src = img.content; */
+  const cells = [
+    ['Card'],
+    [el],
+    ['The Hello World block ']
+    
+  ];
+  const table = WebImporter.DOMUtils.createTable(cells, document);
+  main.append(table);
+  
+}
   export default {
     /**
      * Apply DOM operations to the provided document and return
@@ -74,9 +92,15 @@ const createMetadata = (main, document) => {
         '.elementor-widget-image',
       ]);
   
+
+      const elements = document.querySelectorAll('.elementor-widget-wrap.elementor-element-populated');
+      console.log("no of elem..." + elements.length);
+
       // create the metadata block and append it to the main element
       createMetadata(main, document);
-  
+        
+      // create the metadata block and append it to the main element
+      createCardTable(main, document);
       return main;
     },
   
